@@ -15,12 +15,12 @@ def ipv4_to_value(ipv4_addr):
     ipv4_addr: "1.2.3.4"
     return:    0x01020304 0b00000001000000100000001100000100 16909060
     """
-    binary_numbers = '0b'
+    addr = '0b'
     ip_numbers = ipv4_addr.split(".")
 
     for ip in ip_numbers:
-        binary_numbers += str(f"{int(ip):08b}") # Converts to binary with leading zeroes then a string to concat together
-    return binary_numbers
+        addr += str(f"{int(ip):08b}") # Converts to binary with leading zeroes then a string to concat together
+    return addr
 
 def value_to_ipv4(addr):
     """
@@ -37,9 +37,14 @@ def value_to_ipv4(addr):
     addr:   0x01020304 0b00000001000000100000001100000100 16909060
     return: "1.2.3.4"
     """
-
-    # TODO -- write me!
-    pass
+    addr = addr[2:] # Removes '0b' binary header
+    binary_numbers = [addr[i:i + 8] for i in range(0, len(addr), 8)] # Splits every 8th number
+    ipv4_addr = ''
+    for num in binary_numbers:
+        ip_numbers = int(num, 2) # Converts from binary to integer
+        ipv4_addr = ipv4_addr + str(ip_numbers) + '.'
+    ipv4_addr = ipv4_addr.rstrip(ipv4_addr[-1]) # Strips last period from address
+    return ipv4_addr
 
 def get_subnet_mask_value(slash):
     """
@@ -245,7 +250,6 @@ def main(argv):
     print_same_subnets(src_dest_pairs)
     print()
     print_ip_routers(routers, src_dest_pairs)
-print(ipv4_to_value('1.2.3.4'))
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
     
