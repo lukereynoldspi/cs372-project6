@@ -15,9 +15,12 @@ def ipv4_to_value(ipv4_addr):
     ipv4_addr: "1.2.3.4"
     return:    0x01020304 0b00000001000000100000001100000100 16909060
     """
+    binary_numbers = '0b'
+    ip_numbers = ipv4_addr.split(".")
 
-    # TODO -- write me!
-    pass
+    for ip in ip_numbers:
+        binary_numbers += str(f"{int(ip):08b}") # Converts to binary with leading zeroes then a string to concat together
+    return binary_numbers
 
 def value_to_ipv4(addr):
     """
@@ -242,7 +245,7 @@ def main(argv):
     print_same_subnets(src_dest_pairs)
     print()
     print_ip_routers(routers, src_dest_pairs)
-
+print(ipv4_to_value('1.2.3.4'))
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
     
