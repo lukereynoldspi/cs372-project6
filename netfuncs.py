@@ -63,8 +63,28 @@ def get_subnet_mask_value(slash):
     return: 0xfffffe00 0b11111111111111111111111000000000 4294966784
     """
 
-    # TODO -- write me!
-    pass
+    index = slash.find('/')
+    value = int(slash[index + 1:]) # Takes number after slash 
+    if value == 0:
+        return ipv4_to_value('0.0.0.0')
+    else:
+        ip_part = 0
+        ipv4_addr = []
+        addr_space = 256
+        for i in range(value):
+            ip_part = ip_part + (addr_space / 2) # Adds half of the previous value each digit of the ip address
+            addr_space = addr_space / 2
+            if ip_part == 255: # Appends to ipv4_addr list if digit equals 255, resets the digit and addr_space
+                ipv4_addr.append(int(ip_part))
+                ip_part = 0
+                addr_space = 256
+        if (ip_part != 255 and len(ipv4_addr) < 4): # Makes sure to add any hanging addresses less than 255
+            ipv4_addr.append(int(ip_part)) 
+        while len(ipv4_addr) != 4: # Appends zeroes to address if length does not fill four digits
+            ipv4_addr.append(0)
+        ipv4_addr = ('.'.join(str(x) for x in ipv4_addr)) # Concats address into string
+        return ipv4_to_value(ipv4_addr)
+
 
 def ips_same_subnet(ip1, ip2, slash):
     """
@@ -250,6 +270,8 @@ def main(argv):
     print_same_subnets(src_dest_pairs)
     print()
     print_ip_routers(routers, src_dest_pairs)
+
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
     
+
