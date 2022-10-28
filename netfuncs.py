@@ -188,7 +188,7 @@ def find_router_for_ip(routers, ip):
         routers_ip = key # Gets router ip address
         ip_data_pair = (routers[key])
         for key in ip_data_pair:
-            netmask_number = (ip_data_pair[key]) # Gets netmask number from data pair
+            netmask_number = str((ip_data_pair["netmask"])) # Gets netmask number from data pair
             if ips_same_subnet(ip, routers_ip, netmask_number) == True: # Checks if user ip and routers ip is on same subnet 
                 return routers_ip
     return None
