@@ -110,12 +110,13 @@ def ips_same_subnet(ip1, ip2, slash):
     slash:  "/16"
     return: False
     """
-    
+    # Gets addresses from ipv4 and subnet of ipv4
     ip1_addr = (ipv4_to_value(ip1))
     ip2_addr = (ipv4_to_value(ip2))
     ip1_subnet = get_subnet_mask_value(ip1 + slash)
     ip2_subnet = get_subnet_mask_value(ip2 + slash)
     
+    # Converts to int that way AND bitwise operator can be used
     ip1_network_number = int(ip1_addr, 2) & int(ip1_subnet, 2)
     ip2_network_number = int(ip2_addr, 2) & int(ip2_subnet, 2)
 
@@ -123,7 +124,6 @@ def ips_same_subnet(ip1, ip2, slash):
         return True
     else:
         return False
-
 
 def get_network(ip_value, netmask):
     """
