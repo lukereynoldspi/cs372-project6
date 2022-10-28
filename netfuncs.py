@@ -140,11 +140,11 @@ def get_network(ip_value, netmask):
     return:   0x01020300
     """
 
-    network = int(ip_value, 2) & int(netmask, 2)
-    network = bin(network)
-    while len(network) != 34: # Adds leading zeroes to make 32 binary bytes, accounting for 0b on binary string
-        network = network[:2] + '0' + network[2:]
-    return network
+    network_addr = int(ip_value, 2) & int(netmask, 2)
+    network_addr = bin(network_addr)
+    while len(network_addr) != 34: # Adds leading zeroes to make 32 binary bytes, accounting for 0b on binary string
+        network_addr = network_addr[:2] + '0' + network_addr[2:]
+    return network_addr
 
 def find_router_for_ip(routers, ip):
     """
