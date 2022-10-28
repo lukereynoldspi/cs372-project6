@@ -110,9 +110,20 @@ def ips_same_subnet(ip1, ip2, slash):
     slash:  "/16"
     return: False
     """
+    
+    ip1_addr = (ipv4_to_value(ip1))
+    ip1_addr = ip1_addr[2:]
+    ip2_addr = (ipv4_to_value(ip2))
+    ip2_addr = ip2_addr[2:]
+    ip1_subnet = get_subnet_mask_value(ip1 + slash)
+    ip1_subnet = ip1_subnet[2:]
+    ip2_subnet = get_subnet_mask_value(ip2 + slash)
+    ip2_subnet = ip2_subnet[2:]
+    
 
-    # TODO -- write me!
-    pass
+    print (ip1_addr, ip1_subnet)
+    print (ip2_addr, ip2_subnet)
+
 
 def get_network(ip_value, netmask):
     """
@@ -270,7 +281,10 @@ def main(argv):
     print_same_subnets(src_dest_pairs)
     print()
     print_ip_routers(routers, src_dest_pairs)
-
+ip1 =    "10.23.230.22"
+ip2 =    "10.24.121.225"
+slash =  "/16"
+ips_same_subnet(ip1, ip2, slash)
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
     
