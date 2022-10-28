@@ -71,6 +71,7 @@ def get_subnet_mask_value(slash):
         ip_part = 0
         ipv4_addr = []
         addr_space = 256
+
         for i in range(value):
             ip_part = ip_part + (addr_space / 2) # Adds half of the previous value each digit of the ip address
             addr_space = addr_space / 2
@@ -78,10 +79,13 @@ def get_subnet_mask_value(slash):
                 ipv4_addr.append(int(ip_part))
                 ip_part = 0
                 addr_space = 256
+
         if (ip_part != 255 and len(ipv4_addr) < 4): # Makes sure to add any hanging addresses less than 255
             ipv4_addr.append(int(ip_part)) 
+
         while len(ipv4_addr) != 4: # Appends zeroes to address if length does not fill four digits
             ipv4_addr.append(0)
+
         ipv4_addr = ('.'.join(str(x) for x in ipv4_addr)) # Concats address into string
         return ipv4_to_value(ipv4_addr)
 
@@ -116,7 +120,7 @@ def ips_same_subnet(ip1, ip2, slash):
     ip1_subnet = get_subnet_mask_value(ip1 + slash)
     ip2_subnet = get_subnet_mask_value(ip2 + slash)
     
-    # Converts to int that way AND bitwise operator can be used
+    # Converts to int that way bitwise AND operator can be used
     ip1_network_number = int(ip1_addr, 2) & int(ip1_subnet, 2)
     ip2_network_number = int(ip2_addr, 2) & int(ip2_subnet, 2)
 
@@ -180,9 +184,14 @@ def find_router_for_ip(routers, ip):
     ip: "1.2.5.6"
     return: None
     """
-
-    # TODO -- write me!
-    pass
+    for key in routers.keys():
+        routers_ip = key # Gets router ip address
+        ip_data_pair = (routers[key])
+        for key in ip_data_pair:
+            netmask_number = (ip_data_pair[key]) # Gets netmask number from data pair
+            if ips_same_subnet(ip, routers_ip, netmask_number) == True: # Checks if user ip and routers ip is on same subnet 
+                return routers_ip
+    return None
 
 # Uncomment this code to have it run instead of the real main.
 # Be sure to comment it back out before you submit!
@@ -284,10 +293,7 @@ def main(argv):
     print_same_subnets(src_dest_pairs)
     print()
     print_ip_routers(routers, src_dest_pairs)
-ip1=    "10.23.230.22"
-netmask = ("255.0.0.0")
-print(get_network(ipv4_to_value(ip1), ipv4_to_value(netmask)))
+
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
     
-
