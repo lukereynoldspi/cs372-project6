@@ -136,8 +136,11 @@ def get_network(ip_value, netmask):
     return:   0x01020300
     """
 
-    # TODO -- write me!
-    pass
+    network = int(ip_value, 2) & int(netmask, 2)
+    network = bin(network)
+    while len(network) != 34: # Adds leading zeroes to make 32 binary bytes, accounting for 0b on binary string
+        network = network[:2] + '0' + network[2:]
+    return network
 
 def find_router_for_ip(routers, ip):
     """
@@ -281,7 +284,9 @@ def main(argv):
     print_same_subnets(src_dest_pairs)
     print()
     print_ip_routers(routers, src_dest_pairs)
-
+ip1=    "10.23.230.22"
+netmask = ("255.0.0.0")
+print(get_network(ipv4_to_value(ip1), ipv4_to_value(netmask)))
 if __name__ == "__main__":
     sys.exit(main(sys.argv))
     
